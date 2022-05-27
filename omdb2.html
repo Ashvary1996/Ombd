@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMDB MOVIE APP I</title>
+  <style>
+    #title {
+      font-size: 20px;
+    }
+    #head{
+      height: 50px;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: rgba(255, 227, 127, 0.714);
+      cursor: pointer;
+    }
+    #container{
+      /* border: 2px solid red; */
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      width: 350px;
+      padding: 10px;
+      /* overflow-y: scroll; */
+      /* height: 600px; */
+
+    }
+    .box {
+      
+    }
+  </style>
+</head>
+
+<body>
+  <div id="head" style="background-color:rgb(200, 238, 238)"><h1>Search Your Movies </h1></div>
+  <div ><input id="title" type="text" placeholder="type movie name">
+    <button id="button">Search Movie</button>
+  </div>
+  <div id="container">
+  </div>
+
+
+</body>
+
+</html>
+<script>
+  document.getElementById("button").addEventListener("click", getData)
+
+  async function getData() {
+   try {
+    const title = document.getElementById("title").value;
+    const url = `http://www.omdbapi.com/?apikey=96efd45f&s=${title}`
+
+    title &&
+      fetch(url)
+        .then((api) => api.json())
+        .then((data) => appendData(data.Search));
+    console.log("Triggered")
+   } catch (error) {
+     console.log(error)
+   }
+  }
+
+  function appendData(data) {
+    document.getElementById("container").innerHTML = "";
+
+    data.forEach((oneMovie) => {
+      document.getElementById("container").innerHTML= null;
+      const poster = document.createElement("img")
+      const title = document.createElement("h1")
+      const year = document.createElement("p")
+      const rating = document.createElement("p")
+      const box = document.createElement("div")
+      box.setAttribute("class", "box")
+
+      poster.src = oneMovie.Poster;
+      title.textContent = oneMovie.Title;
+      year.textContent = "Released year : " + oneMovie.Year;
+      rating.textContent = "Rating : " + 7.8;
+
+      box.append(title, poster, year,rating)
+
+      document.getElementById("container").append(box)
+    });
+  }
+</script>
